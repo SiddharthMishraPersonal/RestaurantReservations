@@ -78,6 +78,6 @@ Architecture related points:
 
 Pending Tasks:
 ==================
-â€¢	Unit Test cases for the application.
+•	Unit Test cases for the application.
 
 
