@@ -1,0 +1,279 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:Restaurant.Reservations.Converters">
+    <ImageSource x:Key="UpImage">../Images/upImage.png</ImageSource>
+    <ImageSource x:Key="DownImage">../Images/downImage.png</ImageSource>
+    <ImageSource x:Key="AppIcon">../Images/AppIcon.ico</ImageSource>
+    <ImageSource x:Key="ErrorImage">../Images/Error.png</ImageSource>
+    <converters:ValidationErrorsToStringConverter x:Key="ValidationErrorsToStringConverter" />
+    <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <!--  Error template  -->
+    <ControlTemplate x:Key="TextBoxErrorTemplate" TargetType="Control">
+        <Grid ClipToBounds="False">
+            <Image Width="16"
+                   Height="16"
+                   Margin="0,-8,-8,0"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Top"
+                   Source="{StaticResource ErrorImage}"
+                   ToolTip="{Binding ElementName=adornedElement,
+                                     Path=AdornedElement.(Validation.Errors),
+                                     Converter={StaticResource ValidationErrorsToStringConverter}}" />
+            <Border Margin="-1"
+                    BorderBrush="Red"
+                    BorderThickness="1">
+                <AdornedElementPlaceholder Name="adornedElement" />
+            </Border>
+        </Grid>
+    </ControlTemplate>
+
+    <!--  Generic Tooltip  -->
+    <Style x:Key="GenericToolTipStyle" TargetType="ToolTip">
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="HasDropShadow" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToolTip">
+                    <Border Margin="3,3,3,3"
+                            VerticalAlignment="Stretch"
+                            Background="#FFE5E3D8"
+                            BorderBrush="Black"
+                            BorderThickness="1"
+                            CornerRadius="5">
+                        <StackPanel VerticalAlignment="Center"
+                                    Background="Transparent"
+                                    Orientation="Vertical">
+                            <Border HorizontalAlignment="Stretch">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Margin="3 0 0 0"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               FontFamily="Segoe UI"
+                                               FontSize="12"
+                                               FontWeight="Bold"
+                                               Foreground="#FF333333"
+                                               Text="Info." />
+
+
+                                </Grid>
+                            </Border>
+                            <Border Background="#FFFFFFFF"
+                                    BorderBrush="#FFE5E3D8"
+                                    BorderThickness="2"
+                                    CornerRadius="5">
+                                <Grid>
+                                    <TextBlock MaxWidth="200"
+                                               Margin="5"
+                                               Text="{TemplateBinding Property=ContentControl.Content}"
+                                               TextWrapping="Wrap" />
+
+
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  Reservation Tooltip  -->
+    <Style x:Key="ReservationToolTipStyle" TargetType="ToolTip">
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="HasDropShadow" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToolTip">
+                    <Border Margin="3,3,3,3"
+                            VerticalAlignment="Stretch"
+                            Background="#FFE5E3D8"
+                            BorderBrush="Black"
+                            BorderThickness="1"
+                            CornerRadius="5">
+                        <StackPanel VerticalAlignment="Center"
+                                    Background="Transparent"
+                                    Orientation="Vertical">
+                            <Border HorizontalAlignment="Stretch">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Margin="2" Orientation="Horizontal">
+                                        <TextBlock Margin="3 0 0 0"
+                                                   HorizontalAlignment="Left"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="Segoe UI"
+                                                   FontSize="12"
+                                                   FontWeight="Bold"
+                                                   Foreground="#FF333333"
+                                                   Text="{Binding SelectedTableString,
+                                                                  StringFormat=Table#: {0}}" />
+                                        <TextBlock Margin="5,0,0,0"
+                                                   HorizontalAlignment="Left"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="Segoe UI"
+                                                   FontSize="12"
+                                                   FontWeight="Bold"
+                                                   Foreground="#FF333333"
+                                                   Text="{Binding Occupants,
+                                                                  StringFormat=for {0}}" />
+                                        <TextBlock Margin="5,0,0,0"
+                                                   HorizontalAlignment="Left"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="Segoe UI"
+                                                   FontSize="12"
+                                                   FontWeight="Bold"
+                                                   Foreground="#FF333333"
+                                                   Text="{Binding CheckInDate,
+                                                                  StringFormat=on {0:dd-MMM-yyyy}}" />
+                                        <TextBlock Margin="2,0,0,0"
+                                                   HorizontalAlignment="Left"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="Segoe UI"
+                                                   FontSize="12"
+                                                   FontWeight="Bold"
+                                                   Foreground="#FF333333"
+                                                   Text="{Binding CheckInDate,
+                                                                  StringFormat=at {0:hh:mm tt}}" />
+
+                                    </StackPanel>
+
+                                </Grid>
+                            </Border>
+                            <Border Background="#FFFFFFFF"
+                                    BorderBrush="#FFE5E3D8"
+                                    BorderThickness="2"
+                                    CornerRadius="5">
+                                <Border.Resources>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="Black" />
+                                    </Style>
+                                </Border.Resources>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" MinWidth="75" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Row="0"
+                                               Grid.Column="0"
+                                               Margin="5,5,5,1"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Top"
+                                               Text="Tables:" />
+                                    <TextBlock Grid.Row="0"
+                                               Grid.Column="1"
+                                               Margin="5,5,5,1"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Top"
+                                               Text=":" />
+                                    <TextBlock Grid.Row="0"
+                                               Grid.Column="2"
+                                               Margin="5,5,5,1"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               Text="{Binding SelectedTableString}" />
+
+                                    <TextBlock Grid.Row="1"
+                                               Grid.Column="0"
+                                               Margin="5,5,5,1"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               Text="CheckIn Date" />
+                                    <TextBlock Grid.Row="1"
+                                               Grid.Column="1"
+                                               Margin="5,5,5,1"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               Text=":" />
+                                    <TextBlock Grid.Row="1"
+                                               Grid.Column="2"
+                                               Margin="5,5,5,1"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               Text="{Binding CheckInDate,
+                                                              StringFormat={}{0:dd-MMM-yyyy}}" />
+
+                                    <TextBlock Grid.Row="2"
+                                               Grid.Column="0"
+                                               Margin="5,5,5,1"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               Text="CheckIn Time" />
+                                    <TextBlock Grid.Row="2"
+                                               Grid.Column="1"
+                                               Margin="5,5,5,1"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               Text=":" />
+                                    <TextBlock Grid.Row="2"
+                                               Grid.Column="2"
+                                               Margin="5,5,5,1"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               Text="{Binding CheckInDate,
+                                                              StringFormat={}{0:hh:mm tt}}" />
+
+                                    <TextBlock Grid.Row="3"
+                                               Grid.Column="0"
+                                               Margin="5,5,5,1"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Top"
+                                               Text="Occupants" />
+                                    <TextBlock Grid.Row="3"
+                                               Grid.Column="1"
+                                               Margin="5,5,5,1"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Top"
+                                               Text=":" />
+                                    <TextBlock Grid.Row="3"
+                                               Grid.Column="2"
+                                               MaxWidth="300"
+                                               Margin="5,5,5,1"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               Text="{Binding Occupants}"
+                                               TextWrapping="Wrap" />
+
+                                    <TextBlock Grid.Row="4"
+                                               Grid.Column="0"
+                                               Margin="5,5,5,1"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Top"
+                                               Text="Maximum Occupants:" />
+                                    <TextBlock Grid.Row="4"
+                                               Grid.Column="1"
+                                               Margin="5,5,5,1"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Top"
+                                               Text=":" />
+                                    <TextBlock Grid.Row="4"
+                                               Grid.Column="2"
+                                               MaxWidth="300"
+                                               Margin="5,5,5,1"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               Text="{Binding MaxOccupancy}"
+                                               TextWrapping="Wrap" />
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
